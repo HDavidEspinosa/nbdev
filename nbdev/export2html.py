@@ -153,7 +153,7 @@ def _img2jkl(d, h, jekyll=True):
 
 # Cell
 def _is_real_image(src):
-    return not (src.startswith('http://') or src.startswith('https://') or src.startswith('data:image/'))
+    return not (src.startswith('http://') or src.startswith('https://') or src.startswith('data:image/') or src.startswith('attachment:'))
 
 # Cell
 def copy_images(cell, fname, dest, jekyll=True):
@@ -691,7 +691,7 @@ def _create_default_sidebar():
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
-    dic.update({_get_title(f):f'{f.name}' for f in fnames if f.stem!='index'})
+    dic.update({_get_title(f):f.name if Config().host=='github' else f.with_suffix('').name for f in fnames if f.stem!='index'})
     return dic
 
 # Cell
